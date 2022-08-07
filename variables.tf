@@ -6,7 +6,7 @@ variable "project" {
 variable "region" {
   type        = string
   description = "GCP Region."
-  default     = "us-central1"
+  default     = "us-east1"
 }
 
 variable "apis_services" {
@@ -29,7 +29,7 @@ variable "name" {
 variable "image" {
   type        = string
   description = "Vault image to deploy."
-  default     = "vault:latest"
+  default     = "vault:1.9.8"
 }
 
 variable "vault_log_level" {

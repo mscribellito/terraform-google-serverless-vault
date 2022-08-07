@@ -36,13 +36,20 @@ PROJECT_ID=$(gcloud config get-value project)
 
 Cloud Run can deploy container images from either Container Registry or Artifact Registry. This project uses Artifact Registry. You can read more about [pushing images](https://cloud.google.com/artifact-registry/docs/docker/pushing-and-pulling#pushing) in the Google documentation.
 
+```
+gcloud auth login
+gcloud auth configure-docker us-east1-docker.pkg.dev
+```
+
 Pull the [HashiCorp Vault image](https://hub.docker.com/_/vault) from Docker Hub and push to Artifact Registry:
 
 ```
-VAULT_VERSION=1.9.3
+VAULT_VERSION=1.9.8
+LOCATION=us-east1
+REPOSITORY=images
 docker pull amd64/vault:$VAULT_VERSION
-docker tag amd64/vault:$VAULT_VERSION <location>-docker.pkg.dev/$PROJECT_ID/<repository>/vault:$VAULT_VERSION
-docker push <location>-docker.pkg.dev/$PROJECT_ID/<repository>/vault:$VAULT_VERSION
+docker tag amd64/vault:$VAULT_VERSION $LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/vault:$VAULT_VERSION
+docker push $LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/vault:$VAULT_VERSION
 ```
 
 ### Deploy Vault Infrastructure with Terraform

@@ -10,7 +10,7 @@ resource "google_cloud_run_service" "vault_service" {
   template {
     spec {
       containers {
-        image = var.image
+        image = "${var.region}-docker.pkg.dev/${var.project}/images/${var.image}"
         args  = ["server"]
         env {
           name = "VAULT_LOCAL_CONFIG"
