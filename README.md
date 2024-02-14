@@ -97,6 +97,66 @@ vault audit enable file file_path=stdout
 ```
 
 <!-- BEGIN_TF_DOCS -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_google"></a> [google](#requirement\_google) | 4.31.0 |
+
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_google"></a> [google](#provider\_google) | 4.31.0 |
+| <a name="provider_random"></a> [random](#provider\_random) | n/a |
+| <a name="provider_time"></a> [time](#provider\_time) | n/a |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [google_cloud_run_service.vault_server](https://registry.terraform.io/providers/hashicorp/google/4.31.0/docs/resources/cloud_run_service) | resource |
+| [google_cloud_run_service_iam_policy.noauth](https://registry.terraform.io/providers/hashicorp/google/4.31.0/docs/resources/cloud_run_service_iam_policy) | resource |
+| [google_kms_crypto_key.vault_seal](https://registry.terraform.io/providers/hashicorp/google/4.31.0/docs/resources/kms_crypto_key) | resource |
+| [google_kms_key_ring.vault_seal](https://registry.terraform.io/providers/hashicorp/google/4.31.0/docs/resources/kms_key_ring) | resource |
+| [google_kms_key_ring_iam_member.cloudkms_cryptokeyencrypterdecrypter](https://registry.terraform.io/providers/hashicorp/google/4.31.0/docs/resources/kms_key_ring_iam_member) | resource |
+| [google_kms_key_ring_iam_member.cloudkms_viewer](https://registry.terraform.io/providers/hashicorp/google/4.31.0/docs/resources/kms_key_ring_iam_member) | resource |
+| [google_project_service.enable_apis_services](https://registry.terraform.io/providers/hashicorp/google/4.31.0/docs/resources/project_service) | resource |
+| [google_secret_manager_secret.vault_config](https://registry.terraform.io/providers/hashicorp/google/4.31.0/docs/resources/secret_manager_secret) | resource |
+| [google_secret_manager_secret_iam_member.secretmanager_secretaccessor](https://registry.terraform.io/providers/hashicorp/google/4.31.0/docs/resources/secret_manager_secret_iam_member) | resource |
+| [google_secret_manager_secret_version.vault_config](https://registry.terraform.io/providers/hashicorp/google/4.31.0/docs/resources/secret_manager_secret_version) | resource |
+| [google_service_account.vault](https://registry.terraform.io/providers/hashicorp/google/4.31.0/docs/resources/service_account) | resource |
+| [google_storage_bucket.vault_storage](https://registry.terraform.io/providers/hashicorp/google/4.31.0/docs/resources/storage_bucket) | resource |
+| [google_storage_bucket_iam_member.storage_objectadmin](https://registry.terraform.io/providers/hashicorp/google/4.31.0/docs/resources/storage_bucket_iam_member) | resource |
+| [random_id.random](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id) | resource |
+| [time_sleep.delay](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
+| [google_iam_policy.noauth](https://registry.terraform.io/providers/hashicorp/google/4.31.0/docs/data-sources/iam_policy) | data source |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_apis_services"></a> [apis\_services](#input\_apis\_services) | APIs & Services to enable. | `list(string)` | <pre>[<br>  "cloudkms.googleapis.com",<br>  "run.googleapis.com",<br>  "secretmanager.googleapis.com",<br>  "storage.googleapis.com"<br>]</pre> | no |
+| <a name="input_name"></a> [name](#input\_name) | Value to prefix resources with. | `string` | `"vault"` | no |
+| <a name="input_project_id"></a> [project\_id](#input\_project\_id) | GCP Project Id. | `string` | n/a | yes |
+| <a name="input_region"></a> [region](#input\_region) | GCP Region. | `string` | `"us-east1"` | no |
+| <a name="input_vault_cpu"></a> [vault\_cpu](#input\_vault\_cpu) | Specifies the CPU. | `string` | `"1000m"` | no |
+| <a name="input_vault_image"></a> [vault\_image](#input\_vault\_image) | Specifies the Vault image to use. | `string` | `"hashicorp/vault"` | no |
+| <a name="input_vault_log_level"></a> [vault\_log\_level](#input\_vault\_log\_level) | Specifies the log level to use. | `string` | `"info"` | no |
+| <a name="input_vault_memory"></a> [vault\_memory](#input\_vault\_memory) | Specifies the memory. | `string` | `"256Mi"` | no |
+| <a name="input_vault_ui"></a> [vault\_ui](#input\_vault\_ui) | Enables the built-in web UI. | `bool` | `true` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_region"></a> [region](#output\_region) | Region of the Vault Cloud Run service. |
+| <a name="output_service_name"></a> [service\_name](#output\_service\_name) | Name of the Vault Cloud Run service. |
+| <a name="output_service_url"></a> [service\_url](#output\_service\_url) | URL of the Vault Cloud Run service. |
 <!-- END_TF_DOCS -->
 
 ## Contributing
