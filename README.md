@@ -96,6 +96,9 @@ vault login
 vault audit enable file file_path=stdout
 ```
 
+<!-- BEGIN_TF_DOCS -->
+<!-- END_TF_DOCS -->
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
