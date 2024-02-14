@@ -56,6 +56,12 @@ variable "vault_memory" {
   default     = "256Mi"
 }
 
+variable "noauth" {
+  type        = bool
+  description = "Whether or not all users can access Vault."
+  default     = false
+}
+
 locals {
   service_env_vars = [
     {

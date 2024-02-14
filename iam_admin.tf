@@ -26,3 +26,22 @@ resource "google_kms_key_ring_iam_member" "cloudkms_viewer" {
   role        = "roles/cloudkms.viewer"
   member      = "serviceAccount:${google_service_account.vault.email}"
 }
+
+data "google_iam_policy" "noauth" {
+  binding {
+    role = "roles/run.invoker"
+    members = [
+      "allUsers",
+    ]
+  }
+}
+
+resource "google_cloud_run_service_iam_policy" "noauth" {
+  count = var.noauth ? 1 : 0
+
+  location = google_cloud_run_service.vault_server.location
+  project  = google_cloud_run_service.vault_server.project
+  service  = google_cloud_run_service.vault_server.name
+
+  policy_data = data.google_iam_policy.noauth.policy_data
+}

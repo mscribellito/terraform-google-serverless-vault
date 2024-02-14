@@ -89,7 +89,7 @@ You can read more about read more about [initializing](https://www.vaultproject.
 
 The Cloud Run Service can be made public now that Vault has been initialized.
 
-Uncomment the `google_iam_policy.noauth` and `google_cloud_run_service_iam_policy.noauth` resource blocks in `cloud_run.tf` and update infrastructure:
+Set the `noauth` variable to `true` and update infrastructure:
 
 ```
 terraform apply
@@ -161,6 +161,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_apis_services"></a> [apis\_services](#input\_apis\_services) | APIs & Services to enable. | `list(string)` | <pre>[<br>  "cloudkms.googleapis.com",<br>  "run.googleapis.com",<br>  "secretmanager.googleapis.com",<br>  "storage.googleapis.com"<br>]</pre> | no |
 | <a name="input_name"></a> [name](#input\_name) | Value to prefix resources with. | `string` | `"vault"` | no |
+| <a name="input_noauth"></a> [noauth](#input\_noauth) | Whether or not all users can access Vault. | `bool` | `false` | no |
 | <a name="input_project_id"></a> [project\_id](#input\_project\_id) | GCP Project Id. | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | GCP Region. | `string` | `"us-east1"` | no |
 | <a name="input_vault_cpu"></a> [vault\_cpu](#input\_vault\_cpu) | Specifies the CPU. | `string` | `"1000m"` | no |
