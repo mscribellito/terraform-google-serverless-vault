@@ -89,7 +89,7 @@ You can read more about read more about [initializing](https://www.vaultproject.
 
 The Cloud Run Service can be made public now that Vault has been initialized.
 
-Uncomment the `google_iam_policy.noauth` and `google_cloud_run_service_iam_policy.noauth` resource blocks in `cloud_run.tf` and update infrastructure:
+Set the `noauth` variable to `true` and update infrastructure:
 
 ```
 terraform apply
