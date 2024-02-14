@@ -3,9 +3,9 @@ output "region" {
 }
 
 output "service_name" {
-  value = google_cloud_run_service.vault_service.name
+  value = google_cloud_run_service.vault_server.name
 }
 
 output "service_url" {
-  value = google_cloud_run_service.vault_service.status[0].url
+  value = google_cloud_run_service.vault_server.status[0].url
 }

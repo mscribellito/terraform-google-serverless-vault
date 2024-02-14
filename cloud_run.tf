@@ -1,4 +1,4 @@
-resource "google_cloud_run_service" "vault_service" {
+resource "google_cloud_run_service" "vault_server" {
   name     = "${var.name}-server"
   location = var.region
 
@@ -10,7 +10,7 @@ resource "google_cloud_run_service" "vault_service" {
   template {
     spec {
       containers {
-        image = "${var.region}-docker.pkg.dev/${var.project}/images/${var.image}"
+        image = var.vault_image
         args  = ["server"]
         env {
           name = "VAULT_LOCAL_CONFIG"
@@ -34,12 +34,12 @@ resource "google_cloud_run_service" "vault_service" {
         }
         resources {
           limits = {
-            cpu    = "1000m"
-            memory = "256Mi"
+            cpu    = var.vault_cpu
+            memory = var.vault_memory
           }
         }
       }
-      service_account_name = google_service_account.service_account.email
+      service_account_name = google_service_account.vault.email
     }
     metadata {
       annotations = {
@@ -49,25 +49,25 @@ resource "google_cloud_run_service" "vault_service" {
   }
 
   metadata {
-    namespace = var.project
+    namespace = var.project_id
   }
 
   depends_on = [time_sleep.delay]
 }
 
-# data "google_iam_policy" "noauth" {
-#   binding {
-#     role = "roles/run.invoker"
-#     members = [
-#       "allUsers",
-#     ]
-#   }
-# }
+data "google_iam_policy" "noauth" {
+  binding {
+    role = "roles/run.invoker"
+    members = [
+      "allUsers",
+    ]
+  }
+}
 
-# resource "google_cloud_run_service_iam_policy" "noauth" {
-#   location = google_cloud_run_service.vault_service.location
-#   project  = google_cloud_run_service.vault_service.project
-#   service  = google_cloud_run_service.vault_service.name
+resource "google_cloud_run_service_iam_policy" "noauth" {
+  location = google_cloud_run_service.vault_server.location
+  project  = google_cloud_run_service.vault_server.project
+  service  = google_cloud_run_service.vault_server.name
 
-#   policy_data = data.google_iam_policy.noauth.policy_data
-# }
+  policy_data = data.google_iam_policy.noauth.policy_data
+}

@@ -1,0 +1,25 @@
+{
+    "ui": "${ui}",
+    "log_level": "${log_level}",
+    "disable_mlock": true,
+    "seal": {
+        "gcpckms": {
+            "crypto_key": "${crypto_key}",
+            "key_ring": "${key_ring}",
+            "project": "${project}",
+            "region": "${region}"
+        }
+    },
+    "storage": {
+        "gcs": {
+            "bucket": "${bucket}",
+            "ha_enabled": false
+        }
+    },
+    "listener": {
+        "tcp": {
+            "address": "0.0.0.0:8200",
+            "tls_disable": "1"
+        }
+    }
+}

@@ -12,7 +12,6 @@ Vault is served from [Cloud Run](https://cloud.google.com/run) and leverages [Cl
 
 * [Google Cloud](https://cloud.google.com/) project with billing enabled
 * [gcloud](https://cloud.google.com/sdk/docs/install)
-* [Docker](https://www.docker.com/products/docker-desktop)
 * [Terraform](https://www.terraform.io/downloads)
 * [Vault](https://www.vaultproject.io/downloads)
 
@@ -24,33 +23,6 @@ Vault Server is publicly accessible. **This is not a best practice and not recom
 * [Enabling IAP for Cloud Run](https://cloud.google.com/iap/docs/enabling-cloud-run)
 
 ## Deployment
-
-Enable `artifactregistry.googleapis.com` API in your GCP project and run the below commands to set gcloud project and environment variable:
-
-```
-gcloud config set project <your-project>
-PROJECT_ID=$(gcloud config get-value project)
-```
-
-### Push Vault Image to Artifact Registry
-
-Cloud Run can deploy container images from either Container Registry or Artifact Registry. This project uses Artifact Registry. You can read more about [pushing images](https://cloud.google.com/artifact-registry/docs/docker/pushing-and-pulling#pushing) in the Google documentation.
-
-```
-gcloud auth login
-gcloud auth configure-docker us-east1-docker.pkg.dev
-```
-
-Pull the [HashiCorp Vault image](https://hub.docker.com/_/vault) from Docker Hub and push to Artifact Registry:
-
-```
-VAULT_VERSION=1.9.8
-LOCATION=us-east1
-REPOSITORY=images
-docker pull amd64/vault:$VAULT_VERSION
-docker tag amd64/vault:$VAULT_VERSION $LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/vault:$VAULT_VERSION
-docker push $LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/vault:$VAULT_VERSION
-```
 
 ### Deploy Vault Infrastructure with Terraform
 
@@ -76,20 +48,20 @@ SERVICE_URL=$(terraform output -raw service_url)
 Grant Cloud Run invoke access to your user:
 
 ```
-gcloud run services add-iam-policy-binding ${SERVICE_NAME} \
-  --member="user:${USER}" \
+gcloud run services add-iam-policy-binding $SERVICE_NAME \
+  --member="user:$USER" \
   --role='roles/run.invoker' \
   --platform managed \
-  --region ${REGION}
+  --region $REGION
 ```
 
 Use `curl` to initialize the Vault server:
 
 ```
 curl -s -X PUT \
-  ${SERVICE_URL}/v1/sys/init \
+  $SERVICE_URL/v1/sys/init \
   -H "Authorization: Bearer $(gcloud auth print-identity-token)" \
-  --data '{"recovery_shares":5,"recovery_threshold":3,"secret_shares":5,"secret_threshold":3,"stored_share":5}'
+  --data '{"recovery_shares":5,"recovery_threshold":3,"stored_share":5}'
 ```
 
 You can read more about read more about [initializing](https://www.vaultproject.io/api/system/init) in the HashiCorp Vault documentation.
@@ -109,7 +81,7 @@ terraform apply
 Set the `VAULT_ADDR` environment variable and check the status using `vault`:
 
 ```
-export VAULT_ADDR=${SERVICE_URL}
+export VAULT_ADDR=$SERVICE_URL
 vault status
 ```
 

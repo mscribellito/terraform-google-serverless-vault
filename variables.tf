@@ -1,4 +1,4 @@
-variable "project" {
+variable "project_id" {
   type        = string
   description = "GCP Project Id."
 }
@@ -26,10 +26,10 @@ variable "name" {
   default     = "vault"
 }
 
-variable "image" {
+variable "vault_image" {
   type        = string
-  description = "Vault image to deploy."
-  default     = "vault:1.9.8"
+  description = "Specifies the Vault image to use."
+  default     = "hashicorp/vault"
 }
 
 variable "vault_log_level" {
@@ -41,7 +41,19 @@ variable "vault_log_level" {
 variable "vault_ui" {
   type        = bool
   description = "Enables the built-in web UI."
-  default     = false
+  default     = true
+}
+
+variable "vault_cpu" {
+  type        = string
+  description = "Specifies the CPU."
+  default     = "1000m"
+}
+
+variable "vault_memory" {
+  type        = string
+  description = "Specifies the memory."
+  default     = "256Mi"
 }
 
 locals {
