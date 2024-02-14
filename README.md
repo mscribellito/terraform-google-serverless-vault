@@ -87,6 +87,15 @@ vault status
 
 Vault is now operational.
 
+### Enable Vault Audit Logging
+
+Login to Vault and enable audit logs on stdout:
+
+```
+vault login
+vault audit enable file file_path=stdout
+```
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
