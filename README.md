@@ -34,7 +34,7 @@ terraform apply
 
 ### Initialize the Vault Server
 
-The initial service deployment will be private to prevent someone else from initializing Vault. The service will be made public after initializing.
+The initial service deployment will be private to prevent someone else from initializing Vault. The service will be made public after initializing and authentication delegated to Vault.
 
 Set some environment variables to make following commands cleaner:
 
@@ -45,7 +45,7 @@ SERVICE_NAME=$(terraform output -raw service_name)
 SERVICE_URL=$(terraform output -raw service_url)
 ```
 
-Grant Cloud Run invoke access to your user:
+Grant Cloud Run invoke access to your `gcloud` user:
 
 ```
 gcloud run services add-iam-policy-binding $SERVICE_NAME \
@@ -63,6 +63,25 @@ curl -s -X PUT \
   -H "Authorization: Bearer $(gcloud auth print-identity-token)" \
   --data '{"recovery_shares":5,"recovery_threshold":3,"stored_share":5}'
 ```
+
+```
+{
+  "keys": [],
+  "keys_base64": [],
+  "recovery_keys":
+    [
+      "xxx"
+    ],
+  "recovery_keys_base64":
+    [
+      "xxx"
+    ],
+  "root_token": "x.xxx",
+}
+
+```
+
+At this point Vault has been initialized.
 
 You can read more about read more about [initializing](https://www.vaultproject.io/api/system/init) in the HashiCorp Vault documentation.
 
