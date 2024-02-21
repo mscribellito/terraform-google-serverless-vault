@@ -35,3 +35,5 @@ terraform.rc
 
 # Ignore Terraform lock file
 .terraform.lock.hcl
+
+tstate.tf

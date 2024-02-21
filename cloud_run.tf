@@ -45,6 +45,9 @@ resource "google_cloud_run_service" "vault_server" {
       annotations = {
         "autoscaling.knative.dev/maxScale" = 1
       }
+      labels = {
+        "run.googleapis.com/startupProbeType" = "Default"
+      }
     }
   }
 
