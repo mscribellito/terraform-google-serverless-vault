@@ -1,0 +1,31 @@
+---
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+
+  release:
+    name: release
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v4
+
+    - name: release
+      uses: cycjimmy/semantic-release-action@v4
+      with:
+        semantic_version: 23.0.2
+        extra_plugins: |
+          conventional-changelog-conventionalcommits@8.0.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
