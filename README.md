@@ -52,7 +52,9 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_url"></a> [url](#output\_url) | URL of the Vault Cloud Run service. |
+| <a name="output_name"></a> [name](#output\_name) | Name of the Vault service. |
+| <a name="output_region"></a> [region](#output\_region) | Region of the Vault service. |
+| <a name="output_url"></a> [url](#output\_url) | URL of the Vault service. |
 <!-- END_TF_DOCS -->
 
 ## Contributing
