@@ -1,5 +1,126 @@
 # Serverless Vault on Google Cloud Run
 
+`terraform-google-serverless-vault` is a POC for a [HashiCorp Vault](https://www.vaultproject.io/) deployment on Google Cloud.
+
+[What is Vault?](https://www.vaultproject.io/docs/what-is-vault) Vault secures, stores, and tightly controls access to tokens, passwords, certificates, API keys, and other secrets in modern computing.
+
+Vault is served from [Cloud Run](https://cloud.google.com/run) and leverages [Cloud Storage](https://cloud.google.com/storage) for storage, [Cloud KMS](https://cloud.google.com/security-key-management) for seal/unseal, [Secret Manager](https://cloud.google.com/secret-manager) for configuration and [Cloud Logging](https://cloud.google.com/logging) for audit.
+
+## Security Concerns
+
+Vault Server is publicly accessible. **This is not a best practice and not recommended for production**. Access to Vault [should be restricted](https://cloud.google.com/run/docs/securing/ingress):
+
+- [Connecting Cloud Run to a VPC network](https://cloud.google.com/run/docs/configuring/connecting-vpc)
+- [Enabling IAP for Cloud Run](https://cloud.google.com/iap/docs/enabling-cloud-run)
+
+## Prerequisites
+
+- [Google Cloud](https://cloud.google.com/) project with billing enabled
+- [gcloud](https://cloud.google.com/sdk/docs/install)
+- [Terraform](https://www.terraform.io/downloads)
+- [Vault](https://www.vaultproject.io/downloads)
+
+The following APIs & Services should be enabled:
+
+- cloudkms.googleapis.com
+- run.googleapis.com
+- secretmanager.googleapis.com
+- storage.googleapis.com
+
+## Deployment
+
+Configure variables using `terraform.tfvars` file or other means and deploy infrastructure:
+
+```
+terraform apply
+```
+
+## Configuration
+
+The initial service deployment will be private to prevent someone else from initializing Vault. The service will be made public after initializing and authentication delegated to Vault.
+
+Set some environment variables to make following commands cleaner:
+
+```
+USER=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
+REGION=$(terraform output -raw region)
+NAME=$(terraform output -raw name)
+URL=$(terraform output -raw url)
+```
+
+Grant Cloud Run invoke access to your `gcloud` user:
+
+```
+gcloud run services add-iam-policy-binding $NAME \
+  --member="user:$USER" \
+  --role='roles/run.invoker' \
+  --platform managed \
+  --region $REGION
+```
+
+### Initialize the Vault Server
+
+Use `curl` to initialize the Vault server:
+
+```
+curl -s -X PUT \
+  $URL/v1/sys/init \
+  -H "Authorization: Bearer $(gcloud auth print-identity-token)" \
+  --data '{"recovery_shares":5,"recovery_threshold":3,"stored_share":5}'
+```
+
+The initialization will return recovery keys and root token. Save the output somewhere secure.
+
+```
+{
+    "keys": [],
+    "keys_base64": [],
+    "recovery_keys": [
+        "xxx",
+        ...
+    ],
+    "recovery_keys_base64": [
+        "xxx",
+        ...
+    ],
+    "root_token": "xxx.xxx"
+}
+```
+
+At this point Vault has been initialized.
+
+You can read more about read more about [initializing](https://www.vaultproject.io/api/system/init) in the HashiCorp Vault documentation.
+
+### Enable Public Access for the Vault Server
+
+The Cloud Run Service can be made public now that Vault has been initialized.
+
+Update `terraform.tfvars`, set `public` to `true` and update infrastructure. 
+
+```
+terraform apply
+```
+
+### Check Vault Status
+
+Set the `VAULT_ADDR` environment variable and check the status using `vault`:
+
+```
+export VAULT_ADDR=$URL
+vault status
+```
+
+Vault is now operational.
+
+### Enable Vault Audit Logging
+
+Login to Vault using root token and enable audit logs on stdout:
+
+```
+vault login
+vault audit enable file file_path=stdout
+```
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
