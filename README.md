@@ -23,6 +23,7 @@ No modules.
 | Name | Type |
 |------|------|
 | [google_cloud_run_service.server](https://registry.terraform.io/providers/hashicorp/google/5.31.1/docs/resources/cloud_run_service) | resource |
+| [google_cloud_run_service_iam_member.invoker](https://registry.terraform.io/providers/hashicorp/google/5.31.1/docs/resources/cloud_run_service_iam_member) | resource |
 | [google_kms_crypto_key.seal](https://registry.terraform.io/providers/hashicorp/google/5.31.1/docs/resources/kms_crypto_key) | resource |
 | [google_kms_key_ring.seal](https://registry.terraform.io/providers/hashicorp/google/5.31.1/docs/resources/kms_key_ring) | resource |
 | [google_kms_key_ring_iam_member.crypto_key_encrypter_decrypter](https://registry.terraform.io/providers/hashicorp/google/5.31.1/docs/resources/kms_key_ring_iam_member) | resource |
@@ -45,6 +46,7 @@ No modules.
 | <a name="input_memory"></a> [memory](#input\_memory) | Specifies the memory. | `string` | `"256Mi"` | no |
 | <a name="input_name"></a> [name](#input\_name) | Value to prefix resources with. | `string` | `"vault"` | no |
 | <a name="input_project_id"></a> [project\_id](#input\_project\_id) | GCP Project Id. | `string` | n/a | yes |
+| <a name="input_public"></a> [public](#input\_public) | Whether or not Vault server should be public. | `bool` | `false` | no |
 | <a name="input_region"></a> [region](#input\_region) | GCP Region. | `string` | `"us-east1"` | no |
 | <a name="input_ui"></a> [ui](#input\_ui) | Enables the built-in web UI. | `bool` | `true` | no |
 
