@@ -1,5 +1,5 @@
 resource "google_service_account" "vault" {
-  account_id = "${var.name}-sa"
+  account_id = "${var.name}sa"
 }
 
 resource "google_storage_bucket_iam_member" "object_admin" {

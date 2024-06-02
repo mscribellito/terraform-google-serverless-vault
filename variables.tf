@@ -1,18 +1,18 @@
 variable "project_id" {
   type        = string
-  description = "GCP Project Id."
+  description = "GCP project where Vault server should be deployed."
 }
 
 variable "region" {
   type        = string
-  description = "GCP Region."
+  description = "GCP region where Vault server should be deployed."
   default     = "us-east1"
 }
 
 variable "name" {
   type        = string
   description = "Value to prefix resources with."
-  default     = "vault"
+  default     = "vault-"
 }
 
 variable "public" {
@@ -29,7 +29,7 @@ variable "image" {
 
 variable "log_level" {
   type        = string
-  description = "Specifies the log level to use."
+  description = "Log verbosity level."
   default     = "info"
 }
 
@@ -41,12 +41,12 @@ variable "ui" {
 
 variable "cpu" {
   type        = string
-  description = "Specifies the CPU."
+  description = "Specifies the CPU for Vault server."
   default     = "1000m"
 }
 
 variable "memory" {
   type        = string
-  description = "Specifies the memory."
+  description = "Specifies the memory for Vault server."
   default     = "256Mi"
 }

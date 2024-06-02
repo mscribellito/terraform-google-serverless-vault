@@ -1,5 +1,5 @@
 resource "google_secret_manager_secret" "config" {
-  secret_id = "${var.name}-config"
+  secret_id = "${var.name}config"
   replication {
     user_managed {
       replicas {

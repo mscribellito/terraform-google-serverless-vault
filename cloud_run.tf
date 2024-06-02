@@ -8,7 +8,7 @@ locals {
 }
 
 resource "google_cloud_run_service" "server" {
-  name     = "${var.name}-server"
+  name     = "${var.name}server"
   location = var.region
 
   traffic {
