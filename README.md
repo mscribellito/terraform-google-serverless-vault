@@ -40,14 +40,14 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_cpu"></a> [cpu](#input\_cpu) | Specifies the CPU. | `string` | `"1000m"` | no |
+| <a name="input_cpu"></a> [cpu](#input\_cpu) | Specifies the CPU for Vault server. | `string` | `"1000m"` | no |
 | <a name="input_image"></a> [image](#input\_image) | Specifies the Vault image to use. | `string` | `"hashicorp/vault"` | no |
-| <a name="input_log_level"></a> [log\_level](#input\_log\_level) | Specifies the log level to use. | `string` | `"info"` | no |
-| <a name="input_memory"></a> [memory](#input\_memory) | Specifies the memory. | `string` | `"256Mi"` | no |
-| <a name="input_name"></a> [name](#input\_name) | Value to prefix resources with. | `string` | `"vault"` | no |
-| <a name="input_project_id"></a> [project\_id](#input\_project\_id) | GCP Project Id. | `string` | n/a | yes |
+| <a name="input_log_level"></a> [log\_level](#input\_log\_level) | Log verbosity level. | `string` | `"info"` | no |
+| <a name="input_memory"></a> [memory](#input\_memory) | Specifies the memory for Vault server. | `string` | `"256Mi"` | no |
+| <a name="input_name"></a> [name](#input\_name) | Value to prefix resources with. | `string` | `"vault-"` | no |
+| <a name="input_project_id"></a> [project\_id](#input\_project\_id) | GCP project where Vault server should be deployed. | `string` | n/a | yes |
 | <a name="input_public"></a> [public](#input\_public) | Whether or not Vault server should be public. | `bool` | `false` | no |
-| <a name="input_region"></a> [region](#input\_region) | GCP Region. | `string` | `"us-east1"` | no |
+| <a name="input_region"></a> [region](#input\_region) | GCP region where Vault server should be deployed. | `string` | `"us-east1"` | no |
 | <a name="input_ui"></a> [ui](#input\_ui) | Enables the built-in web UI. | `bool` | `true` | no |
 
 ## Outputs
