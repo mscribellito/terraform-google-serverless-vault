@@ -1,3 +1,12 @@
+locals {
+  service_env_vars = [
+    {
+      name  = "SKIP_SETCAP"
+      value = 1
+    }
+  ]
+}
+
 resource "google_cloud_run_service" "server" {
   name     = "${var.name}-server"
   location = var.region
@@ -55,13 +64,3 @@ resource "google_cloud_run_service" "server" {
     namespace = var.project_id
   }
 }
-
-# resource "google_cloud_run_service_iam_member" "noauth" {
-#   project = google_cloud_run_service.server.project
-
-#   location = google_cloud_run_service.server.location
-#   service  = google_cloud_run_service.server.name
-
-#   role   = "roles/run.invoker"
-#   member = "allUsers"
-# }

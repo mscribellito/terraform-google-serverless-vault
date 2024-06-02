@@ -25,3 +25,15 @@ resource "google_kms_key_ring_iam_member" "viewer" {
   role        = "roles/cloudkms.viewer"
   member      = "serviceAccount:${google_service_account.vault.email}"
 }
+
+resource "google_cloud_run_service_iam_member" "invoker" {
+  count = var.public ? 1 : 0
+
+  project = google_cloud_run_service.server.project
+
+  location = google_cloud_run_service.server.location
+  service  = google_cloud_run_service.server.name
+
+  role   = "roles/run.invoker"
+  member = "allUsers"
+}

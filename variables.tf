@@ -15,6 +15,12 @@ variable "name" {
   default     = "vault"
 }
 
+variable "public" {
+  type        = bool
+  description = "Whether or not Vault server should be public."
+  default     = false
+}
+
 variable "image" {
   type        = string
   description = "Specifies the Vault image to use."
@@ -43,13 +49,4 @@ variable "memory" {
   type        = string
   description = "Specifies the memory."
   default     = "256Mi"
-}
-
-locals {
-  service_env_vars = [
-    {
-      name  = "SKIP_SETCAP"
-      value = 1
-    }
-  ]
 }
